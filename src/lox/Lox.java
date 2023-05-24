@@ -6,12 +6,16 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Lox {
 	static boolean hadError = false;
 
+	
 	public static void main(String args[]) throws IOException {
+		System.out.println(args[0]);
 		if (args.length > 1) {
 			System.out.println("Usage: jlox [script]");
 			System.exit(64);

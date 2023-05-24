@@ -1,0 +1,17 @@
+/*
+* 
+*		/* Here is a nested comment */ 
+*
+*/
+
+/* Normal c like comment /**/*/
+
+// momo = "Hirai"
+
+myName = "Taty"
+
+// /* //
+
+print "Momo"
+
+/* */
