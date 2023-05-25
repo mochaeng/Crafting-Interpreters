@@ -39,9 +39,6 @@ public class Scanner {
 	public Scanner(String source) {
 		this.source = source;
 	}
-	/*assksk
-	 * asda
-	 */ char c = 4;
 	
 	List<Token> scanTokens() {
 		while (!isAtEnd()) {

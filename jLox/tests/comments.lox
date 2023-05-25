@@ -4,6 +4,12 @@
 *
 */
 
+/* This is the outer comment.
+    /* This is a nested comment. */
+    This is some code inside the outer comment.
+*/
+
+
 /* Normal c like comment /**/*/
 
 // momo = "Hirai"
