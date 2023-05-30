@@ -45,85 +45,75 @@ default:
 
 # Challenges
 
-1. The lexical grammars of Python and Haskell are not regular. What does that mean, and why aren’t they?
-   <br />
+1.  - This means that the rules governing the formation of tokens in these languages cannot be fully described by regular expression or recognized by finite automata alone. The reason lies in the complexity of their tokenization rules. Both languages incorporate features that go beyond what regular languages can express.
+      <br />
 
-   - This means that the rules governing the formation of tokens in these languages cannot be fully described by regular expression or recognized by finite automata alone. The reason lies in the complexity of their tokenization rules. Both languages incorporate features that go beyond what regular languages can express.
-     <br />
+    > Python uses identation to denote block structure, making whitespace significant. This requirement cannot be expressed by a regular grammar, as regular languages cannot account for the context-dependent nature of identation.
 
-   > Python uses identation to denote block structure, making whitespace significant. This requirement cannot be expressed by a regular grammar, as regular languages cannot account for the context-dependent nature of identation.
+    > Haskel allows nested comments, where comment delimiters can appear within other comment sections.
 
-   > Haskel allows nested comments, where comment delimiters can appear within other comment sections.
+2.  2.1. **Ruby:**
 
-2. Aside from separating tokens—distinguishing `print foo` from `printfoo`—spaces aren’t used for much in most languages. However, in a couple of dark corners, a space does affect how code is parsed in CoffeeScript, Ruby, and the C preprocessor. Where and what effect does it have in each of those languages?
-   <br />
+    In ruby, methods can be called with or withou parentheses. Takes this code as example:
 
-   2.1. **Ruby:**
+    ```rb
+    Array.new(1,9)
+    Array.new 1,9
+    ```
 
-   In ruby, methods can be called with or withou parentheses. Takes this code as example:
+    However, if you attempt to run the following code:
 
-   ```rb
-   Array.new(1,9)
-   Array.new 1,9
-   ```
+    ```rb
+    Array.new (1,9)
+    ```
 
-   However, if you attempt to run the following code:
+    The parser mistakenly interprets it as receiving arguments after the space, whereas it actually receives a tuple (1, 9). In essence, the latter code is equivalent to:
 
-   ```rb
-   Array.new (1,9)
-   ```
+    ```rb
+    Array.new (1,9) <=> Array.new((1,9))
+    ```
 
-   The parser mistakenly interprets it as receiving arguments after the space, whereas it actually receives a tuple (1, 9). In essence, the latter code is equivalent to:
+    However, if you attempt to run the following code:
 
-   ```rb
-   Array.new (1,9) <=> Array.new((1,9))
-   ```
-
-   However, if you attempt to run the following code:
-
-   Look more at: [StackOverflow](https://stackoverflow.com/questions/26480823/why-does-white-space-affect-ruby-function-calls)
+    Look more at: [StackOverflow](https://stackoverflow.com/questions/26480823/why-does-white-space-affect-ruby-function-calls)
 
 <br />
 
-3. Our scanner here, like most, discards comments and whitespace since those aren’t needed by the parser. Why might you want to write a scanner that does not discard those? What would it be useful for?
+3.
 
 <br />
 
-4. Add support to Lox’s scanner for C-style `/* ... */` block comments. Make sure to handle newlines in them. Consider allowing them to nest. Is adding support for nesting more work than you expected? Why?
+4.  ```java
+    case '/':
+        ...
+        } else if (match('*')) {
+            comment();
+        }
+        ...
+    ```
 
-    <br />
+    ```java
+    private void comment() {
+        int closed = 1;
+        while (closed > 0) {
+            char c = peek();
 
-   ```java
-   case '/':
-       ...
-       } else if (match('*')) {
-           comment();
-       }
-       ...
-   ```
+            if (c == '*' && peekNext() == '/') {
+                advance();
+                closed--;
+            } else if (c == '/' && peekNext() == '*') {
+                advance();
+                closed++;
+            } else if (isAtEnd()) {
+                Lox.error(line, "Unclosed comment");
+                break;
+            } else if (c == '\n') {
+                line++;
+            }
 
-   ```java
-   private void comment() {
-       int closed = 1;
-       while (closed > 0) {
-           char c = peek();
+            advance();
+        }
+    }
+    ```
 
-           if (c == '*' && peekNext() == '/') {
-               advance();
-               closed--;
-           } else if (c == '/' && peekNext() == '*') {
-               advance();
-               closed++;
-           } else if (isAtEnd()) {
-               Lox.error(line, "Unclosed comment");
-               break;
-           } else if (c == '\n') {
-               line++;
-           }
-
-           advance();
-       }
-   }
-   ```
-
-   I just need to keep track of the number of open `/*` comments and ensure that all of them have been closed with a `*/`.
+I just need to keep track of the number of open `/*` comments and ensure that all of them have been closed with a `*/`.
