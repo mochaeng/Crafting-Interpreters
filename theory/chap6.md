@@ -34,5 +34,25 @@ primary :: NUMBER | STRING | "true" | "false" | "nil"
 
 It's is the simplest way technique to build a parser. A recursive descent parser is a literal translation of the grammar's rules straight into imperative code. Each rule becomes a function. The body of the rule translates to code.
 
+## The parser class
+
+Each grammar rule will become a method inside the class. 
+
+The parse consumes a flat input sequence, but this time, we're reading tokens instead of characters.
+
+- `isAtEnd()` checks if we've run out of tokens to parse. 
+- `peek()` returns the current token we have yet to consume.
+- `previous()` returns the most recently consumed token.
+
+## Syntax Errors
+
+A parser should:
+
+1. Produce a corresponding syntax tree given a valid sequence of tokens.
+2. Detect any errors and tell the user about their mistakes given a _invalid_ sequence of tokens.
+
+## Synchronizing a recursive descent parser 
+
+The parser's state (which rules it is in the middle of recognizing) is not stored explicitly in fields.
 
 

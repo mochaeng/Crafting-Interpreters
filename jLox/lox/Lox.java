@@ -13,7 +13,6 @@ import java.util.Map;
 public class Lox {
 	static boolean hadError = false;
 
-	
 	public static void main(String args[]) throws IOException {
 		System.out.println(args[0]);
 		if (args.length > 1) {
@@ -26,10 +25,18 @@ public class Lox {
 		}
 	}
 
+	static void error(Token token, String message) {
+		if (token.type == TokenType.EOF) {
+			report(token.line, " at end", message);
+		} else {
+			report(token.line, " at '" + token.lexeme + "'", message);
+		}
+	}
+
 	private static void runFile(String path) throws IOException {
 		byte[] bytes = Files.readAllBytes(Paths.get(path));
 		run(new String(bytes, Charset.defaultCharset()));
-		
+
 		if (hadError) {
 			System.exit(65);
 		}
@@ -52,10 +59,17 @@ public class Lox {
 	private static void run(String source) {
 		Scanner scanner = new Scanner(source);
 		List<Token> tokens = scanner.scanTokens();
+
+		Parser parser = new Parser(tokens);
+		Expr expression = parser.parser();
 		
-		for (Token token : tokens) {
-			System.out.println(token);
-		}
+		if (hadError) return;
+		
+		System.out.println(new PrinterAST().print(expression));
+		
+//		for (Token token : tokens) {
+//			System.out.println(token);
+//		}
 	}
 
 	static void error(int line, String message) {
